@@ -7,6 +7,11 @@
  * LATEST UPDATES
 
  * -----------------------------
+ * October 25, 2013
+ *
+ * Ammended to use HTML5 data attributes instead of pure JS init.
+ *
+ * -----------------------------
  * April 18, 2013.
  * -----------------------------
      * parentNode - use this instead of id, to attach gauge to node which is outside of DOM tree - https://github.com/toorshia/justgage/issues/48
@@ -82,99 +87,95 @@
 
   // if (!config.id) {alert("Missing id parameter for gauge!"); return false;}
   // if (!document.getElementById(config.id)) {alert("No element with id: \""+config.id+"\" found!"); return false;}
-
   var obj = this;
-  var params = document.querySelector( id ), data = params.dataset;
+  var params = document.querySelector( '#' + id ), data = params.dataset;
   // HTML data-elements swapped out for config. 
-  
   // configurable parameters
   obj.config =
   {
-    
-	
 	// id : string
     // this is container element id
     id : id,
 
     // parentNode : node object
     // this is container element
-    parentNode : (params.parentNode) ? params.parentNode : null,
+    parentNode : (data.parentNode) ? data.parentNode : null,
 
     // width : int
     // gauge width
-    width : (params.width) ? params.width : null,
+    width : (data.width) ? data.width : null,
 
     // height : int
     // gauge height
-    height : (params.height) ? params.height : null,
+    height : (data.height) ? data.height : null,
 
     // title : string
     // gauge title
-    title : (params.title) ? params.title : "",
+    title : (data.title) ? data.title : "",
 
     // titleFontColor : string
     // color of gauge title
-    titleFontColor : (params.titleFontColor) ? params.titleFontColor : "#999999",
+    titleFontColor : (data.titleFontColor) ? data.titleFontColor : "#999999",
 
     // value : int
     // value gauge is showing
-    value : (params.value) ? params.value : 0,
+    value : (data.value) ? data.value : 0,
 
     // valueFontColor : string
     // color of label showing current value
-    valueFontColor : (params.valueFontColor) ? params.valueFontColor : "#010101",
+    valueFontColor : (data.valueFontColor) ? data.valueFontColor : "#010101",
 
     // symbol : string
     // special symbol to show next to value
-    symbol : (params.symbol) ? params.symbol : "",
+    symbol : (data.symbol) ? data.symbol : "",
 
     // min : int
     // min value
-    min : (params.min !== undefined) ? parseFloat(params.min) : 0,
+    min : (data.min !== undefined) ? parseFloat(data.min) : 0,
 
     // max : int
     // max value
-    max : (params.max !== undefined) ? parseFloat(params.max) : 100,
+    max : (data.max !== undefined) ? parseFloat(data.max) : 100,
 
     // humanFriendlyDecimal : int
     // number of decimal places for our human friendly number to contain
-    humanFriendlyDecimal : (params.humanFriendlyDecimal) ? params.humanFriendlyDecimal : 0,
+    humanFriendlyDecimal : (data.humanFriendlyDecimal) ? data.humanFriendlyDecimal : 0,
 
     // textRenderer: func
     // function applied before rendering text
-    textRenderer  : (params.textRenderer) ? params.textRenderer : null,
+    textRenderer  : (data.textRenderer) ? data.textRenderer : null,
 
     // gaugeWidthScale : float
     // width of the gauge element
-    gaugeWidthScale : (params.gaugeWidthScale) ? params.gaugeWidthScale : 1.0,
+    gaugeWidthScale : (data.gaugeWidthScale) ? data.gaugeWidthScale : 1.0,
 
     // gaugeColor : string
     // background color of gauge element
-    gaugeColor : (params.gaugeColor) ? params.gaugeColor : "#edebeb",
+    gaugeColor : (data.gaugeColor) ? data.gaugeColor : "#edebeb",
 
     // label : string
     // text to show below value
-    label : (params.label) ? params.label : "",
+    label : (data.label) ? data.label : "",
 
     // labelFontColor : string
     // color of label showing label under value
-    labelFontColor : (params.labelFontColor) ? params.labelFontColor : "#b3b3b3",
+    labelFontColor : (data.labelFontColor) ? data.labelFontColor : "#b3b3b3",
 
     // shadowOpacity : int
     // 0 ~ 1
-    shadowOpacity : (params.shadowOpacity) ? params.shadowOpacity : 0.2,
+    shadowOpacity : (data.shadowOpacity) ? data.shadowOpacity : 0.2,
 
     // shadowSize: int
     // inner shadow size
-    shadowSize : (params.shadowSize) ? params.shadowSize : 5,
+    shadowSize : (data.shadowSize) ? data.shadowSize : 5,
 
     // shadowVerticalOffset : int
     // how much shadow is offset from top
-    shadowVerticalOffset : (params.shadowVerticalOffset) ? params.shadowVerticalOffset : 3,
+    shadowVerticalOffset : (data.shadowVerticalOffset) ? data.shadowVerticalOffset : 3,
 
     // levelColors : string[]
     // colors of indicator, from lower to upper, in RGB format
-    levelColors : (params.levelColors) ? params.levelColors : [
+    levelColors : (data.levelColors) ? data.levelColors : [
     "#a9d70b",
     "#f9c802",
     "#ff0000"
@@ -182,83 +183,83 @@
 
     // startAnimationTime : int
     // length of initial animation
-    startAnimationTime : (params.startAnimationTime) ? params.startAnimationTime : 700,
+    startAnimationTime : (data.startAnimationTime) ? data.startAnimationTime : 700,
 
     // startAnimationType : string
     // type of initial animation (linear, >, <,  <>, bounce)
-    startAnimationType : (params.startAnimationType) ? params.startAnimationType : ">",
+    startAnimationType : (data.startAnimationType) ? data.startAnimationType : ">",
 
     // refreshAnimationTime : int
     // length of refresh animation
-    refreshAnimationTime : (params.refreshAnimationTime) ? params.refreshAnimationTime : 700,
+    refreshAnimationTime : (data.refreshAnimationTime) ? data.refreshAnimationTime : 700,
 
     // refreshAnimationType : string
     // type of refresh animation (linear, >, <,  <>, bounce)
-    refreshAnimationType : (params.refreshAnimationType) ? params.refreshAnimationType : ">",
+    refreshAnimationType : (data.refreshAnimationType) ? data.refreshAnimationType : ">",
 
     // donutStartAngle : int
     // angle to start from when in donut mode
-    donutStartAngle : (params.donutStartAngle) ? params.donutStartAngle : 90,
+    donutStartAngle : (data.donutStartAngle) ? data.donutStartAngle : 90,
 
     // valueMinFontSize : int
     // absolute minimum font size for the value
-    valueMinFontSize : params.valueMinFontSize || 16,
+    valueMinFontSize : data.valueMinFontSize || 16,
 
     // titleMinFontSize
     // absolute minimum font size for the title
-    titleMinFontSize : params.titleMinFontSize || 10,
+    titleMinFontSize : data.titleMinFontSize || 10,
 
     // labelMinFontSize
     // absolute minimum font size for the label
-    labelMinFontSize : params.labelMinFontSize || 10,
+    labelMinFontSize : data.labelMinFontSize || 10,
 
     // minLabelMinFontSize
     // absolute minimum font size for the minimum label
-    minLabelMinFontSize : params.minLabelMinFontSize || 10,
+    minLabelMinFontSize : data.minLabelMinFontSize || 10,
 
     // maxLabelMinFontSize
     // absolute minimum font size for the maximum label
-    maxLabelMinFontSize : params.maxLabelMinFontSize || 10,
+    maxLabelMinFontSize : data.maxLabelMinFontSize || 10,
 
     // hideValue : bool
     // hide value text
-    hideValue : (params.hideValue) ? params.hideValue : false,
+    hideValue : (data.hideValue) ? data.hideValue : false,
 
     // hideMinMax : bool
     // hide min and max values
-    hideMinMax : (params.hideMinMax) ? params.hideMinMax : false,
+    hideMinMax : (data.hideMinMax) ? data.hideMinMax : false,
 
     // hideInnerShadow : bool
     // hide inner shadow
-    hideInnerShadow : (params.hideInnerShadow) ? params.hideInnerShadow : false,
+    hideInnerShadow : (data.hideInnerShadow) ? data.hideInnerShadow : false,
 
     // humanFriendly : bool
     // convert large numbers for min, max, value to human friendly (e.g. 1234567 -> 1.23M)
-    humanFriendly : (params.humanFriendly) ? params.humanFriendly : false,
+    humanFriendly : (data.humanFriendly) ? data.humanFriendly : false,
 
     // noGradient : bool
     // whether to use gradual color change for value, or sector-based
-    noGradient : (params.noGradient) ? params.noGradient : false,
+    noGradient : (data.noGradient) ? data.noGradient : false,
 
     // donut : bool
     // show full donut gauge
-    donut : (params.donut) ? params.donut : false,
+    donut : (data.donut) ? data.donut : false,
 
     // relativeGaugeSize : bool
     // whether gauge size should follow changes in container element size
-    relativeGaugeSize : (params.relativeGaugeSize) ? params.relativeGaugeSize : false,
+    relativeGaugeSize : (data.relativeGaugeSize) ? data.relativeGaugeSize : false,
 
     // counter : bool
     // animate level number change
-    counter : (params.counter) ? params.counter : false,
+    counter : (data.counter) ? data.counter : false,
 
     // decimals : int
     // number of digits after floating point
-    decimals : (params.decimals) ? params.decimals : 0,
+    decimals : (data.decimals) ? data.decimals : 0,
 
     // customSectors : [] of objects
     // number of digits after floating point
-    customSectors : (params.customSectors) ? params.customSectors : []
+    customSectors : (data.customSectors) ? data.customSectors : []
   };
 
   // variables
@@ -289,7 +290,7 @@
   // overflow values
   if (obj.config.value > obj.config.max) obj.config.value = obj.config.max;
   if (obj.config.value < obj.config.min) obj.config.value = obj.config.min;
-  obj.originalValue = config.value;
+  obj.originalValue = data.value;
 
   // create canvas
   if (obj.config.id !== null && (document.getElementById(obj.config.id)) !== null) {
