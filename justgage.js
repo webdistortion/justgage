@@ -78,99 +78,103 @@
      * Option to show shorthand big numbers (human friendly)
      */
 
- JustGage = function(config) {
+ JustGage = function(id) {
 
   // if (!config.id) {alert("Missing id parameter for gauge!"); return false;}
   // if (!document.getElementById(config.id)) {alert("No element with id: \""+config.id+"\" found!"); return false;}
 
   var obj = this;
-
+  var params = document.querySelector( id ), data = params.dataset;
+  // HTML data-elements swapped out for config. 
+  
   // configurable parameters
   obj.config =
   {
-    // id : string
+    
+	
+	// id : string
     // this is container element id
-    id : config.id,
+    id : id,
 
     // parentNode : node object
     // this is container element
-    parentNode : (config.parentNode) ? config.parentNode : null,
+    parentNode : (params.parentNode) ? params.parentNode : null,
 
     // width : int
     // gauge width
-    width : (config.width) ? config.width : null,
+    width : (params.width) ? params.width : null,
 
     // height : int
     // gauge height
-    height : (config.height) ? config.height : null,
+    height : (params.height) ? params.height : null,
 
     // title : string
     // gauge title
-    title : (config.title) ? config.title : "",
+    title : (params.title) ? params.title : "",
 
     // titleFontColor : string
     // color of gauge title
-    titleFontColor : (config.titleFontColor) ? config.titleFontColor : "#999999",
+    titleFontColor : (params.titleFontColor) ? params.titleFontColor : "#999999",
 
     // value : int
     // value gauge is showing
-    value : (config.value) ? config.value : 0,
+    value : (params.value) ? params.value : 0,
 
     // valueFontColor : string
     // color of label showing current value
-    valueFontColor : (config.valueFontColor) ? config.valueFontColor : "#010101",
+    valueFontColor : (params.valueFontColor) ? params.valueFontColor : "#010101",
 
     // symbol : string
     // special symbol to show next to value
-    symbol : (config.symbol) ? config.symbol : "",
+    symbol : (params.symbol) ? params.symbol : "",
 
     // min : int
     // min value
-    min : (config.min !== undefined) ? parseFloat(config.min) : 0,
+    min : (params.min !== undefined) ? parseFloat(params.min) : 0,
 
     // max : int
     // max value
-    max : (config.max !== undefined) ? parseFloat(config.max) : 100,
+    max : (params.max !== undefined) ? parseFloat(params.max) : 100,
 
     // humanFriendlyDecimal : int
     // number of decimal places for our human friendly number to contain
-    humanFriendlyDecimal : (config.humanFriendlyDecimal) ? config.humanFriendlyDecimal : 0,
+    humanFriendlyDecimal : (params.humanFriendlyDecimal) ? params.humanFriendlyDecimal : 0,
 
     // textRenderer: func
     // function applied before rendering text
-    textRenderer  : (config.textRenderer) ? config.textRenderer : null,
+    textRenderer  : (params.textRenderer) ? params.textRenderer : null,
 
     // gaugeWidthScale : float
     // width of the gauge element
-    gaugeWidthScale : (config.gaugeWidthScale) ? config.gaugeWidthScale : 1.0,
+    gaugeWidthScale : (params.gaugeWidthScale) ? params.gaugeWidthScale : 1.0,
 
     // gaugeColor : string
     // background color of gauge element
-    gaugeColor : (config.gaugeColor) ? config.gaugeColor : "#edebeb",
+    gaugeColor : (params.gaugeColor) ? params.gaugeColor : "#edebeb",
 
     // label : string
     // text to show below value
-    label : (config.label) ? config.label : "",
+    label : (params.label) ? params.label : "",
 
     // labelFontColor : string
     // color of label showing label under value
-    labelFontColor : (config.labelFontColor) ? config.labelFontColor : "#b3b3b3",
+    labelFontColor : (params.labelFontColor) ? params.labelFontColor : "#b3b3b3",
 
     // shadowOpacity : int
     // 0 ~ 1
-    shadowOpacity : (config.shadowOpacity) ? config.shadowOpacity : 0.2,
+    shadowOpacity : (params.shadowOpacity) ? params.shadowOpacity : 0.2,
 
     // shadowSize: int
     // inner shadow size
-    shadowSize : (config.shadowSize) ? config.shadowSize : 5,
+    shadowSize : (params.shadowSize) ? params.shadowSize : 5,
 
     // shadowVerticalOffset : int
     // how much shadow is offset from top
-    shadowVerticalOffset : (config.shadowVerticalOffset) ? config.shadowVerticalOffset : 3,
+    shadowVerticalOffset : (params.shadowVerticalOffset) ? params.shadowVerticalOffset : 3,
 
     // levelColors : string[]
     // colors of indicator, from lower to upper, in RGB format
-    levelColors : (config.levelColors) ? config.levelColors : [
+    levelColors : (params.levelColors) ? params.levelColors : [
     "#a9d70b",
     "#f9c802",
     "#ff0000"
@@ -178,83 +182,83 @@
 
     // startAnimationTime : int
     // length of initial animation
-    startAnimationTime : (config.startAnimationTime) ? config.startAnimationTime : 700,
+    startAnimationTime : (params.startAnimationTime) ? params.startAnimationTime : 700,
 
     // startAnimationType : string
     // type of initial animation (linear, >, <,  <>, bounce)
-    startAnimationType : (config.startAnimationType) ? config.startAnimationType : ">",
+    startAnimationType : (params.startAnimationType) ? params.startAnimationType : ">",
 
     // refreshAnimationTime : int
     // length of refresh animation
-    refreshAnimationTime : (config.refreshAnimationTime) ? config.refreshAnimationTime : 700,
+    refreshAnimationTime : (params.refreshAnimationTime) ? params.refreshAnimationTime : 700,
 
     // refreshAnimationType : string
     // type of refresh animation (linear, >, <,  <>, bounce)
-    refreshAnimationType : (config.refreshAnimationType) ? config.refreshAnimationType : ">",
+    refreshAnimationType : (params.refreshAnimationType) ? params.refreshAnimationType : ">",
 
     // donutStartAngle : int
     // angle to start from when in donut mode
-    donutStartAngle : (config.donutStartAngle) ? config.donutStartAngle : 90,
+    donutStartAngle : (params.donutStartAngle) ? params.donutStartAngle : 90,
 
     // valueMinFontSize : int
     // absolute minimum font size for the value
-    valueMinFontSize : config.valueMinFontSize || 16,
+    valueMinFontSize : params.valueMinFontSize || 16,
 
     // titleMinFontSize
     // absolute minimum font size for the title
-    titleMinFontSize : config.titleMinFontSize || 10,
+    titleMinFontSize : params.titleMinFontSize || 10,
 
     // labelMinFontSize
     // absolute minimum font size for the label
-    labelMinFontSize : config.labelMinFontSize || 10,
+    labelMinFontSize : params.labelMinFontSize || 10,
 
     // minLabelMinFontSize
     // absolute minimum font size for the minimum label
-    minLabelMinFontSize : config.minLabelMinFontSize || 10,
+    minLabelMinFontSize : params.minLabelMinFontSize || 10,
 
     // maxLabelMinFontSize
     // absolute minimum font size for the maximum label
-    maxLabelMinFontSize : config.maxLabelMinFontSize || 10,
+    maxLabelMinFontSize : params.maxLabelMinFontSize || 10,
 
     // hideValue : bool
     // hide value text
-    hideValue : (config.hideValue) ? config.hideValue : false,
+    hideValue : (params.hideValue) ? params.hideValue : false,
 
     // hideMinMax : bool
     // hide min and max values
-    hideMinMax : (config.hideMinMax) ? config.hideMinMax : false,
+    hideMinMax : (params.hideMinMax) ? params.hideMinMax : false,
 
     // hideInnerShadow : bool
     // hide inner shadow
-    hideInnerShadow : (config.hideInnerShadow) ? config.hideInnerShadow : false,
+    hideInnerShadow : (params.hideInnerShadow) ? params.hideInnerShadow : false,
 
     // humanFriendly : bool
     // convert large numbers for min, max, value to human friendly (e.g. 1234567 -> 1.23M)
-    humanFriendly : (config.humanFriendly) ? config.humanFriendly : false,
+    humanFriendly : (params.humanFriendly) ? params.humanFriendly : false,
 
     // noGradient : bool
     // whether to use gradual color change for value, or sector-based
-    noGradient : (config.noGradient) ? config.noGradient : false,
+    noGradient : (params.noGradient) ? params.noGradient : false,
 
     // donut : bool
     // show full donut gauge
-    donut : (config.donut) ? config.donut : false,
+    donut : (params.donut) ? params.donut : false,
 
     // relativeGaugeSize : bool
     // whether gauge size should follow changes in container element size
-    relativeGaugeSize : (config.relativeGaugeSize) ? config.relativeGaugeSize : false,
+    relativeGaugeSize : (params.relativeGaugeSize) ? params.relativeGaugeSize : false,
 
     // counter : bool
     // animate level number change
-    counter : (config.counter) ? config.counter : false,
+    counter : (params.counter) ? params.counter : false,
 
     // decimals : int
     // number of digits after floating point
-    decimals : (config.decimals) ? config.decimals : 0,
+    decimals : (params.decimals) ? params.decimals : 0,
 
     // customSectors : [] of objects
     // number of digits after floating point
-    customSectors : (config.customSectors) ? config.customSectors : []
+    customSectors : (params.customSectors) ? params.customSectors : []
   };
 
   // variables
